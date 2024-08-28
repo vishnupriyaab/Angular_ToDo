@@ -18,11 +18,14 @@ export class TasksComponent implements OnInit {
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
-    this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks));
+    this.taskService.getTasks().subscribe((tasks) => {
+      this.tasks = tasks;
+      this.tasks.reverse();
+    });
   }
   deleteTask(task: Task) {
     this.taskService.deleteTask(task).subscribe(() => {
-      this.tasks = this.tasks.filter((t: Task) => t.id !== task.id);
+      this.tasks = this.tasks.filter((t: Task) => t.id !== task.id).reverse()
     });
   }
   toggleReminder(task: Task) {
@@ -31,6 +34,9 @@ export class TasksComponent implements OnInit {
   }
 
   addTask(task: Task) {
-    this.taskService.addTask(task).subscribe((task) => (this.tasks.push(task)));
+    this.taskService.addTask(task).subscribe((task) => {
+      this.tasks.push(task);
+      this.tasks.reverse()
+    });
   }
 }
